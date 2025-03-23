@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <header>
+        <div class="navbar">
+            <h1>Profiling System</h1>
+            <ul>
+                <li><a href="Index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="services.html">SERVICES</a></li>
+                <li><a href="map.html">MAP</a></li>
+                <li><a href="track.html">TRACK MY REQUEST</a></li>
+                <li><a href="Resident.html">RESIDENT</a></li>
+                <!-- Sign Out Button -->
+                <li><a href="sign.html" class="signout-button">SIGN OUT</a></li>
+            </ul>   
+        </div>
+    </header>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f5f5f5; }
+        .container { width: 50%; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        input { width: 80%; padding: 10px; margin-top: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; margin-top: 10px; background-color: #6C5CE7; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #4834d4; }
+        #status { margin-top: 20px; font-size: 18px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Track Requested Document</h1>
+        <p>Enter your tracking number below:</p>
+        <input type="text" id="trackingID" placeholder="Enter tracking number">
+        <button onclick="trackDocument()">SEARCH</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        // Sample tracking data (simulating a database)
+        let trackingData = {
+            "D7655-C15BB-CD5B7-B985A-11081-AC5BA": "Pending",
+            "A1234-B5678-C9101-D1121-E3141": "Approved",
+            "X9999-Y8888-Z7777-W6666-V5555": "Rejected"
+        };
+
+        function trackDocument() {
+            let trackingID = document.getElementById("trackingID").value.trim();
+            
+            if (!trackingID) {
+                alert("Please enter a tracking ID.");
+                return;
+            }
+
+            let status = trackingData[trackingID]; // Check in tracking data
+            
+            if (status) {
+                document.getElementById("status").innerText = "Status: " + status;
+            } else {
+                document.getElementById("status").innerText = "Tracking ID not found.";
+            }
+        }
+    </script>
+
+</body>
+</html>

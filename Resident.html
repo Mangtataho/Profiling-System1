@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Poblacion A - Resident</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar h1 {
+            color: white;
+            padding: 15px;
+            float: left;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            float: right;
+        }
+
+        .navbar ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #575757;
+        }
+
+        /* Resident List Styling */
+        .resident-list {
+            margin: 20px 0;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .resident-list th, .resident-list td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .resident-list th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .resident-list td a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .resident-list td a:hover {
+            text-decoration: underline;
+        }
+
+        /* Add Resident Button */
+        .add-resident-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* Resident Form Styling */
+        .form-container {
+            display: none;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .form-container input {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+        }
+
+        /* Resident Record Section */
+        .record-section {
+            display: none;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .record-section h3 {
+            color: #4CAF50;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="navbar">
+            <h1>Barangay Poblacion A</h1>
+            <ul>
+                <li><a href="Index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="services.html">SERVICES</a></li>
+                <li><a href="map.html">MAP</a></li>
+                <li><a href="track.html">TRACK MY REQUEST</a></li>
+                <li><a href="Resident.html">RESIDENT</a></li>
+                <!-- Sign Out Button -->
+                <li><a href="sign.html" class="signout-button">SIGN OUT</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <input type="text" id="searchInput" placeholder="Search by name or purok..." onkeyup="searchResidents()">
+        <button onclick="searchResidents()">Search</button>
+    </div>
+
+    <!-- Resident Management Section -->
+    <h2>Resident Management</h2>
+
+    <p id="populationCount">Total Population: 0</p>
+    
+    <button class="add-resident-btn" onclick="showAddResidentForm()">Add Resident</button>
+    
+    <div id="residentList">
+        <h3>List of Residents</h3>
+        <table class="resident-list" id="residentTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Purok</th>
+                    <th>Years in Barangay</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Resident List will appear here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Resident Form -->
+    <div id="addResidentForm" class="form-container">
+        <h3>Add New Resident</h3>
+        <form id="addResidentFormElement">
+            <label for="residentName">Name:</label>
+            <input type="text" id="residentName" name="residentName" required placeholder="Resident's name">
+
+            <label for="purok">Purok:</label>
+            <input type="text" id="purok" name="purok" required placeholder="Purok number">
+
+            <label for="yearMovedIn">Year Moved In:</label>
+            <input type="number" id="yearMovedIn" name="yearMovedIn" required placeholder="Year moved into Barangay">
+
+            <button type="submit" class="add-resident-btn">Add Resident</button>
+        </form>
+    </div>
+
+    <!-- Resident Record Section -->
+    <div id="recordSection" class="record-section">
+        <h3>Resident Record</h3>
+        <p id="residentRecordDetails"></p>
+        <button onclick="closeRecordSection()">Close Record</button>
+    </div>
+
+    <script>
+        let residents = [];
+
+        // Function to update the population count
+        function updatePopulationCount() {
+            document.getElementById("populationCount").innerText = `Total Population: ${residents.length}`;
+        }
+
+        // Function to show Add Resident Form
+        function showAddResidentForm() {
+            document.getElementById("addResidentForm").style.display = "block";
+        }
+
+        // Function to add a resident
+        document.getElementById("addResidentFormElement").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let residentName = document.getElementById("residentName").value;
+            let purok = document.getElementById("purok").value;
+            let yearMovedIn = parseInt(document.getElementById("yearMovedIn").value);
+            let currentYear = new Date().getFullYear();
+            let yearsInBarangay = currentYear - yearMovedIn;
+
+            // Add the new resident to the array
+            residents.push({
+                name: residentName,
+                purok: purok,
+                yearMovedIn: yearMovedIn,
+                yearsInBarangay: yearsInBarangay
+            });
+
+            // Clear input fields
+            document.getElementById("residentName").value = "";
+            document.getElementById("purok").value = "";
+            document.getElementById("yearMovedIn").value = "";
+
+            // Update resident list
+            updateResidentList();
+            updatePopulationCount();
+
+            // Hide the form
+            document.getElementById("addResidentForm").style.display = "none";
+        });
+
+        // Function to update the resident list
+        function updateResidentList() {
+            let tableBody = document.getElementById("residentTable").getElementsByTagName("tbody")[0];
+            tableBody.innerHTML = ""; // Clear the table before updating
+
+            residents.forEach((resident, index) => {
+                let row = tableBody.insertRow();
+                let nameCell = row.insertCell(0);
+                let purokCell = row.insertCell(1);
+                let yearsCell = row.insertCell(2);
+                let actionCell = row.insertCell(3);
+
+                nameCell.textContent = resident.name;
+                purokCell.textContent = resident.purok;
+                yearsCell.textContent = resident.yearsInBarangay;
+
+                actionCell.innerHTML = `
+                    <a href="#" onclick="viewResidentRecord(${index})">View Record</a> | 
+                    <a href="#" onclick="deleteResident(${index})">Delete</a>
+                `;
+            });
+        }
+
+        // Function to search residents
+        function searchResidents() {
+            let searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            let filteredResidents = residents.filter(resident => {
+                return resident.name.toLowerCase().includes(searchTerm) || resident.purok.toLowerCase().includes(searchTerm);
+            });
+            displayFilteredResidents(filteredResidents);
+        }
+
+        // Function to display filtered residents
+        function displayFilteredResidents(filteredResidents) {
+            let tableBody = document.getElementById("residentTable").getElementsByTagName("tbody")[0];
+            tableBody.innerHTML = ""; // Clear the table before updating
+
+            filteredResidents.forEach((resident, index) => {
+                let row = tableBody.insertRow();
+                let nameCell = row.insertCell(0);
+                let purokCell = row.insertCell(1);
+                let yearsCell = row.insertCell(2);
+                let actionCell = row.insertCell(3);
+
+                nameCell.textContent = resident.name;
+                purokCell.textContent = resident.purok;
+                yearsCell.textContent = resident.yearsInBarangay;
+
+                actionCell.innerHTML = `
+                    <a href="#" onclick="viewResidentRecord(${index})">View Record</a> | 
+                    <a href="#" onclick="deleteResident(${index})">Delete</a>
+                `;
+            });
+        }
+
+        // Function to view a resident's record
+        function viewResidentRecord(index) {
+            let resident = residents[index];
+            let yearsInBarangay = new Date().getFullYear() - resident.yearMovedIn;
+            document.getElementById("residentRecordDetails").innerHTML = `
+                <strong>Name:</strong> ${resident.name}<br>
+                <strong>Purok:</strong> ${resident.purok}<br>
+                <strong>Year Moved In:</strong> ${resident.yearMovedIn}<br>
+                <strong>Years in Barangay:</strong> ${yearsInBarangay} years
+            `;
+            document.getElementById("recordSection").style.display = "block";
+        }
+
+        // Function to close the record section
+        function closeRecordSection() {
+            document.getElementById("recordSection").style.display = "none";
+        }
+
+        // Function to delete a resident
+        function deleteResident(index) {
+            if (confirm("Are you sure you want to delete this resident?")) {
+                residents.splice(index, 1); // Remove the resident from the list
+                updateResidentList(); // Update the resident list after deletion
+                updatePopulationCount(); // Update the population count
+            }
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay Poblacion A</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function signIn() {
+            // Get values from the input fields
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Simple check for correct credentials
+            if (username === "Wendyll" && password === "Lachica") {
+                // Redirect to home page if credentials are correct
+                alert("Sign in successful!");
+                window.location.href = "Index.html";  // Redirect to homepage
+            } else {
+                // Show error if credentials are incorrect
+                alert("Incorrect username or password");
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <h1>Profiling System</h1>
+        </div>
+    </header>
+
+    <section class="auth-section">
+        <h2>Sign In or Create an Account</h2>
+        <div class="auth-form">
+            <!-- Username Textbox -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username">
+
+            <!-- Password Textbox -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+
+            <!-- Sign In Button -->
+            <button onclick="signIn();">Sign In</button>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay Services</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function showForm(formId) {
+            document.getElementById('barangay-clearance').style.display = 'none';
+            document.getElementById('residency-certificate').style.display = 'none';
+            document.getElementById('business-permit').style.display = 'none';
+            document.getElementById('certificate-indigency').style.display = 'none';
+            document.getElementById('print-section').style.display = 'none'; // Hide print section initially
+            
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        function submitForm(formId, certificateId) {
+            document.getElementById(formId).style.display = 'none';
+            document.getElementById(certificateId).style.display = 'block';
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+    </script>
+</head>
+<body>
+    <!-- NAVIGATION BAR -->
+    <header>
+        <div class="navbar">
+            <h1>Profiling System</h1>
+            <ul>
+                <li><a href="Index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="services.html">SERVICES</a></li>
+                <li><a href="map.html">MAP</a></li>
+                <li><a href="track.html">TRACK MY REQUEST</a></li>
+                <li><a href="Resident.html">RESIDENT</a></li>
+                <li><a href="sign.html" class="signout-button">SIGN OUT</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h2>ONLINE DOCUMENTS OFFERED</h2>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section class="services">
+        <div class="service-card">
+            <img src="image/logo.jpg" alt="Document Icon">
+            <h3>BARANGAY CLEARANCE</h3>
+            <p>View the requirements needed for Barangay Clearance and acquire online now.</p>
+            <button onclick="showForm('barangay-clearance')">⚪ PROCEED</button>
+        </div>
+
+        <div class="service-card">
+            <img src="image/logo.jpg" alt="Document Icon">
+            <h3>RESIDENCY CERTIFICATE</h3>
+            <p>View the requirements needed for Barangay Residency and acquire online now.</p>
+            <button onclick="showForm('residency-certificate')">⚪ PROCEED</button>
+        </div>
+
+        <div class="service-card">
+            <img src="image/logo.jpg" alt="Document Icon">
+            <h3>BARANGAY BUSINESS PERMIT</h3>
+            <p>View the requirements needed for Barangay Permit and acquire online now.</p>
+            <button onclick="showForm('business-permit')">⚪ PROCEED</button>
+        </div>
+
+        <div class="service-card">
+            <img src="image/logo.jpg" alt="Document Icon">
+            <h3>CERTIFICATE OF INDIGENCY</h3>
+            <p>View the requirements needed for a Certificate of Indigency and acquire online now.</p>
+            <button onclick="showForm('certificate-indigency')">⚪ PROCEED</button>
+        </div>
+    </section>
+
+    <!-- FORMS SECTION -->
+    <section id="barangay-clearance" style="display: none;">
+        <h2>BARANGAY CLEARANCE</h2>
+        <label>Tracking Code:</label>
+        <input type="text" value="D7655-C15BB-CD5B7-B985A-11081-AC5BA" readonly>
+        <label>Full Name:</label>
+        <select>
+            <option>Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+        </select>
+        <input type="text" placeholder="Enter Your Name">
+        <label>Pick-up Date:</label>
+        <input type="date">
+        <label>Payment Method:</label>
+        <select>
+            <option>Select payment Method</option>
+            <option>Gcash</option>
+            <option>Cash</option>
+        </select>
+        <label>Purpose:</label>
+        <input type="text" placeholder="Enter Purpose">
+        <button onclick="submitForm('barangay-clearance', 'print-section')">Submit</button>
+    </section>
+
+    <section id="residency-certificate" style="display: none;">
+        <h2>RESIDENCY CERTIFICATE</h2>
+        <label>Full Name:</label>
+        <select>
+            <option>Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+        </select>
+        <input type="text" placeholder="Enter Your Name">
+        <label>Pick-up Date:</label>
+        <input type="date">
+        <label>Payment Method:</label>
+        <select>
+            <option>Select payment Method</option>
+            <option>Gcash</option>
+            <option>Cash</option>
+        </select>
+        <label>Purpose:</label>
+        <input type="text" placeholder="Enter Purpose">
+        <button onclick="submitForm('residency-certificate', 'print-section')">Submit</button>
+    </section>
+
+    <section id="business-permit" style="display: none;">
+        <h2>BARANGAY BUSINESS PERMIT</h2>
+        <label>Business Name:</label>
+        <input type="text" placeholder="Enter Business Name">
+        <label>Owner's Name:</label>
+        <input type="text" placeholder="Enter Owner Name">
+        <label>Pick-up Date:</label>
+        <input type="date">
+        <label>Payment Method:</label>
+        <select>
+            <option>Select payment Method</option>
+            <option>Gcash</option>
+            <option>Cash</option>
+        </select>
+        <button onclick="submitForm('business-permit', 'print-section')">Submit</button>
+    </section>
+
+    <section id="certificate-indigency" style="display: none;">
+        <h2>CERTIFICATE OF INDIGENCY</h2>
+        <label>Full Name:</label>
+        <select>
+            <option>Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+        </select>
+        <input type="text" placeholder="Enter Your Name">
+        <label>Pick-up Date:</label>
+        <input type="date">
+        <label>Purpose:</label>
+        <input type="text" placeholder="Enter Purpose">
+        <button onclick="submitForm('certificate-indigency', 'print-section')">Submit</button>
+    </section>
+
+    <!-- PRINT CERTIFICATE SECTION -->
+    <section id="print-section" style="display: none;">
+        <h2>Certificate Preview</h2>
+        <img src="image/sample_certificate.png" alt="Generated Certificate">
+        <button onclick="printCertificate()">Print</button>
+    </section>
+</body>
+</html>
